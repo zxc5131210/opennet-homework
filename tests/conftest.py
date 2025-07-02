@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import os
 
-SCREENSHOT_DIR = "screenshots"
+SCREENSHOT_DIR = "../screenshots"
 
 @pytest.fixture(scope="function")
 def driver():
