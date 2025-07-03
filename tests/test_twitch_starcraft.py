@@ -6,19 +6,16 @@ import yaml
 from selenium.common.exceptions import TimeoutException
 
 from locators.locators import TwitchLocators
-import utils.util as utils
+import utils.util as util
 
-# Load configuration from YAML file
-with open('config/config.yaml', 'r') as f:
-    config = yaml.safe_load(f)
-
+config = util.load_config('config.yaml')
 TWITCH_URL = config['twitch']['url']
 SEARCH_TERM = config['twitch']['search_term']
 SCREENSHOT_DIR = config['twitch']['screenshot_dir']
 SCREENSHOT_FILENAME = config['twitch']['screenshot_filename']
 
 def test_twitch_stream_screenshot(driver):
-    utils.set_driver(driver)
+    utils = util.Utils(driver)
     utils.go_to_url(TWITCH_URL)
 
     utils.wait_and_click(TwitchLocators.SEARCH_BUTTON)
