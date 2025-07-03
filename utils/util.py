@@ -35,9 +35,10 @@ class Utils:
             logger.error(f"Unexpected error while navigating to {url}: {e}")
             raise
 
-    def save_screenshot(self, screenshot_path):
+    def save_screenshot(self, screenshot_name):
         try:
-            os.makedirs(os.path.dirname(screenshot_path), exist_ok=True)
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            screenshot_path = os.path.join(base_dir, '..', 'screenshots', f'{screenshot_name}')
             success = self.driver.save_screenshot(screenshot_path)
             if success:
                 logger.info(f"Screenshot saved to: {screenshot_path}")

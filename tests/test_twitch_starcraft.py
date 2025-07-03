@@ -10,7 +10,6 @@ import utils.util as util
 config = util.load_config('config.yaml')
 TWITCH_URL = config['twitch']['url']
 SEARCH_TERM = config['twitch']['search_term']
-SCREENSHOT_DIR = config['twitch']['screenshot_dir']
 SCREENSHOT_FILENAME = config['twitch']['screenshot_filename']
 
 def test_twitch_stream_screenshot(driver):
@@ -34,5 +33,4 @@ def test_twitch_stream_screenshot(driver):
     except TimeoutException:
         pytest.fail("Streamer page may not have fully loaded.")
 
-    screenshot_path = os.path.join(SCREENSHOT_DIR, SCREENSHOT_FILENAME)
-    utils.save_screenshot(screenshot_path)
+    utils.save_screenshot(SCREENSHOT_FILENAME)
