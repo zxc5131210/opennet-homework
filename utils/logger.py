@@ -2,11 +2,9 @@ import logging
 
 def setup_logger(name: str, level=logging.INFO) -> logging.Logger:
     """
-    建立一個只輸出到 console 的 logger。
-
-    :param name: logger 名稱（一般使用模組名）
-    :param level: logging 等級（預設 INFO）
-    :return: logging.Logger 物件
+    :param name: logger name
+    :param level: logging level
+    :return: logging.Logger
     """
     logger = logging.getLogger(name)
     logger.setLevel(level)
