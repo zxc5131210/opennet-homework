@@ -1,20 +1,23 @@
-# test_twitch_stream.py
-
 import os
 import time
 import pytest
+import yaml
 from selenium.common.exceptions import TimeoutException
 
 from locators.locators import TwitchLocators
 from utils.logger import setup_logger
-import utils.util as selenium_utils  # ✅ 匯入整個模組
+import utils.util as selenium_utils  
 
 logger = setup_logger(__name__)
 
-TWITCH_URL = "https://www.twitch.tv/"
-SEARCH_TERM = "StarCraft II"
-SCREENSHOT_DIR = "../screenshots"
-SCREENSHOT_FILENAME = "final_streamer_page.png"
+# Load configuration from YAML file
+with open('../config/config.yaml', 'r') as f:
+    config = yaml.safe_load(f)
+
+TWITCH_URL = config['twitch']['url']
+SEARCH_TERM = config['twitch']['search_term']
+SCREENSHOT_DIR = config['twitch']['screenshot_dir']
+SCREENSHOT_FILENAME = config['twitch']['screenshot_filename']
 
 def test_twitch_stream_screenshot(driver):
     logger.info("Navigating to Twitch homepage...")
