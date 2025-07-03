@@ -2,7 +2,6 @@ import os
 import time
 
 import pytest
-import yaml
 from selenium.common.exceptions import TimeoutException
 
 from locators.locators import TwitchLocators
