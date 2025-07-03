@@ -5,12 +5,13 @@ import os
 
 SCREENSHOT_DIR = "../screenshots"
 
+
 @pytest.fixture(scope="function")
 def driver():
     chrome_options = Options()
 
     mobile_emulation = {
-        "deviceMetrics": { "width": 360, "height": 640, "pixelRatio": 3.0 },
+        "deviceMetrics": {"width": 360, "height": 640, "pixelRatio": 3.0},
         "userAgent": "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 "
                      "(HTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19"
     }
@@ -20,6 +21,7 @@ def driver():
 
     yield _driver
     _driver.quit()
+
 
 @pytest.fixture(scope="session", autouse=True)
 def create_screenshot_dir():

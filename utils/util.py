@@ -69,7 +69,7 @@ class Utils:
             logger.error(f"Unexpected error in wait_for_presence: {e}")
             raise
 
-    def scroll_down(self, times, delay=1, scroll_px = 100):
+    def scroll_down(self, times, delay=1, scroll_px=100):
         try:
             for i in range(times + 1):
                 self.driver.execute_script(f"window.scrollBy({{top: {scroll_px}, behavior: 'smooth'}});")

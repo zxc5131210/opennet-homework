@@ -12,6 +12,7 @@ TWITCH_URL = config['twitch']['url']
 SEARCH_TERM = config['twitch']['search_term']
 SCREENSHOT_FILENAME = config['twitch']['screenshot_filename']
 
+
 def test_twitch_stream_screenshot(driver):
     utils = util.Utils(driver)
     utils.go_to_url(TWITCH_URL)

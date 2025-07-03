@@ -1,5 +1,6 @@
 import logging
 
+
 def setup_logger(name: str, level=logging.INFO) -> logging.Logger:
     """
     :param name: logger name
