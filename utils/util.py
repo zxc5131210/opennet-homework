@@ -1,3 +1,4 @@
+import os
 from typing import Optional
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -16,15 +17,27 @@ def set_driver(driver: WebDriver):
     _driver = driver
 
 def go_to_url(url):
-    _driver.get(url)
+    try:
+        _driver.get(url)
+        logger.info(f"Successfully navigated to URL: {url}")
+    except Exception as e:
+        logger.error(f"Unexpected error while navigating to {url}: {e}")
+        raise
 
 def save_screenshot(screenshot_path):
-    _driver.save_screenshot(screenshot_path)
+    try:
+        os.makedirs(os.path.dirname(screenshot_path), exist_ok=True)
+        success = _driver.save_screenshot(screenshot_path)
+        if success:
+            logger.info(f"Screenshot saved to: {screenshot_path}")
+        else:
+            logger.warning(f"Screenshot attempt failed (unknown reason) at: {screenshot_path}")
+    except Exception as e:
+        logger.error(f"Unexpected error during save_screenshot: {e}")
+        raise
 
 def wait_and_click(locator, timeout=DEFAULT_TIMEOUT):
     logger.info(f"Attempting to click element: {locator}")
-    if _driver is None:
-        raise RuntimeError("Driver not set. Please call utils.set_driver(driver) before using.")
     try:
         element = WebDriverWait(_driver, timeout).until(EC.element_to_be_clickable(locator))
         element.click()
@@ -34,13 +47,22 @@ def wait_and_click(locator, timeout=DEFAULT_TIMEOUT):
         raise
 
 def wait_for_presence(locator, timeout=DEFAULT_TIMEOUT):
-    if _driver is None:
-        raise RuntimeError("Driver not set. Please call utils.set_driver(driver) before using.")
-    return WebDriverWait(_driver, timeout).until(EC.presence_of_element_located(locator))
+    try:
+        element = WebDriverWait(_driver, timeout).until(
+            EC.presence_of_element_located(locator)
+        )
+        logger.info(f"Element found: {locator}")
+        return element
+    except Exception as e:
+        logger.error(f"Unexpected error in wait_for_presence: {e}")
+        raise
 
-def scroll_down(times=1, delay=1):
-    if _driver is None:
-        raise RuntimeError("Driver not set. Please call utils.set_driver(driver) before using.")
-    for _ in range(times + 1):
-        _driver.execute_script("window.scrollBy({top: 100, behavior: 'smooth'});")
-        time.sleep(delay)
+def scroll_down(times, delay=1, scroll_px = 100):
+    try:
+        for i in range(times + 1):
+            _driver.execute_script(f"window.scrollBy({{top: {scroll_px}, behavior: 'smooth'}});")
+            logger.info(f"Scrolled down {scroll_px}px (iteration {i + 1}/{times + 1})")
+            time.sleep(delay)
+    except Exception as e:
+        logger.error(f"Unexpected error in scroll_down: {e}")
+        raise
