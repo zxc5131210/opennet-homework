@@ -1,35 +1,34 @@
-# Twitch 自動化測試
+# Twitch Automation Test
 
-使用 Python 和 Selenium 模擬使用者在 Twitch 網站上進行搜尋和瀏覽實況的操作。
+Simulate user search and live stream browsing operations on the Twitch website using Python and Selenium.
 
-## 測試本地運行的 GIF 動畫
+## Local GIF Animation Demo
 
-以下是自動化測試在本地運行的示範：
+Here's a demonstration of the automated test running locally:
 
-![Twitch 自動化測試示範](running.gif)
+![Twitch](running.gif)
 
 ![final_streamer_page.png](screenshots/final_streamer_page.png)
 
-## 前提條件
+## Prerequisites
 
-* **Python:** 確保您的系統上安裝了 Python。
-* **Google Chrome 瀏覽器:** 測試將在 Chrome 瀏覽器中運行。
+* **Python:** Ensure Python is installed on your system.
+* **Google Chrome Browser:** The tests will run in the Chrome browser.
 
-## 設定步驟
+## Setup Steps
 
 1.  **clone repository:**
     ```bash
     git clone https://github.com/zxc5131210/opennet-homework.git
     ```
 
-2.  **安裝依賴:**
+2.  **Install dependencies:**
     ```bash
     pip install -r requirements.txt
     ```
-## 執行測試
+## Execute Tests
 
-在專案根目錄下運行以下命令：
+Run the following command from the project root directory:
 
 ```bash
-pytest tests/test_twitch_starcraft.py
-
+pytest
