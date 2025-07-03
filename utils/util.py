@@ -1,62 +1,46 @@
-import time
+from typing import Optional
+from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
-
-# Configure logger for this utility file
+import time
 from utils.logger import setup_logger
-logger = setup_logger(__name__)
 
+# init
+_driver: Optional[WebDriver] = None
+logger = setup_logger(__name__)
 DEFAULT_TIMEOUT = 15
 
-def wait_and_click(driver, locator, timeout=DEFAULT_TIMEOUT):
-    """
-    Waits for an element to be clickable, clicks it, and logs the action.
-    """
+def set_driver(driver: WebDriver):
+    global _driver
+    _driver = driver
+
+def go_to_url(url):
+    _driver.get(url)
+
+def save_screenshot(screenshot_path):
+    _driver.save_screenshot(screenshot_path)
+
+def wait_and_click(locator, timeout=DEFAULT_TIMEOUT):
     logger.info(f"Attempting to click element: {locator}")
+    if _driver is None:
+        raise RuntimeError("Driver not set. Please call utils.set_driver(driver) before using.")
     try:
-        element = WebDriverWait(driver, timeout).until(
-            EC.element_to_be_clickable(locator)
-        )
+        element = WebDriverWait(_driver, timeout).until(EC.element_to_be_clickable(locator))
         element.click()
-        logger.info(f"Successfully clicked element: {locator}")
         return element
-    except TimeoutException:
-        logger.error(f"Timeout waiting for element to be clickable: {locator} did not appear or become clickable"
-                     f" within {timeout} seconds.")
-        raise
-    except NoSuchElementException:
-        logger.error(f"Element not found: {locator} could not be located in the DOM.")
+    except (TimeoutException, NoSuchElementException) as e:
+        logger.error(f"Failed to click element {locator}: {e}")
         raise
 
-def wait_for_presence(driver, locator, timeout=DEFAULT_TIMEOUT):
-    """
-    Waits for an element to be present in the DOM and logs the action.
-    """
-    logger.info(f"Waiting for element presence: {locator}")
-    try:
-        element = WebDriverWait(driver, timeout).until(
-            EC.presence_of_element_located(locator)
-        )
-        logger.info(f"Successfully waited for element presence: {locator}")
-        return element
-    except TimeoutException:
-        logger.error(f"Timeout waiting for element presence: {locator} did not appear within {timeout} seconds.")
-        raise
-    except NoSuchElementException:
-        logger.error(f"Element not found: {locator} could not be located in the DOM.")
-        raise
+def wait_for_presence(locator, timeout=DEFAULT_TIMEOUT):
+    if _driver is None:
+        raise RuntimeError("Driver not set. Please call utils.set_driver(driver) before using.")
+    return WebDriverWait(_driver, timeout).until(EC.presence_of_element_located(locator))
 
-def scroll_down(driver, times=1, delay=1):
-    """
-    Scrolls down the page and logs the action.
-    """
+def scroll_down(times=1, delay=1):
+    if _driver is None:
+        raise RuntimeError("Driver not set. Please call utils.set_driver(driver) before using.")
     for _ in range(times + 1):
-        driver.execute_script("""
-            window.scrollBy({
-                top: 100,
-                behavior: 'smooth'
-            });
-        """)
+        _driver.execute_script("window.scrollBy({top: 100, behavior: 'smooth'});")
         time.sleep(delay)
-    logger.info(f"scroll down {times+1}")
