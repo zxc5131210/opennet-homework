@@ -6,7 +6,6 @@ import yaml
 from selenium.common.exceptions import TimeoutException
 
 from locators.locators import TwitchLocators
-
 import utils.util as utils
 
 # Load configuration from YAML file
