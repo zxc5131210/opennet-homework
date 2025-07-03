@@ -9,7 +9,7 @@ from locators.locators import TwitchLocators
 import utils.util as utils
 
 # Load configuration from YAML file
-with open('../config/config.yaml', 'r') as f:
+with open('config/config.yaml', 'r') as f:
     config = yaml.safe_load(f)
 
 TWITCH_URL = config['twitch']['url']
