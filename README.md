@@ -8,7 +8,6 @@ Here's a demonstration of the automated test running locally:
 
 ![running.gif](running.gif)
 
-![final_streamer_page.png](screenshots/final_streamer_page.png)
 
 ## Prerequisites
 
