@@ -6,75 +6,100 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.webdriver.common.by import By
+from dataclasses import dataclass
+from dataclasses_json import DataClassJsonMixin
+from pathlib import Path
+import logging
 
 from tests.conftest import driver
-from utils.logger import setup_logger
 
-# init
-_driver: Optional[WebDriver] = None
-logger = setup_logger(__name__)
+VALID_SCREENSHOT_EXTENSION = ['.png', '.jpg']
 DEFAULT_TIMEOUT = 15
+DEFAULT_SCREENSHOT_DIR = Path('screenshots')
 
 
-def load_config(file):
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    config_path = os.path.join(base_dir, '..', 'config', f'{file}')
-    with open(config_path, 'r') as f:
-        return yaml.safe_load(f)
+@dataclass
+class Locator(DataClassJsonMixin):
+    search_button: str
+    search_input: str
+    search_result: str
+    channel_tab: str
+    first_search_result_link: str
+    streamer_card: str
+    video_player: str
 
 
-class Utils:
-    def __init__(self, driver: WebDriver):
-        self.driver = driver
+@dataclass
+class TestConfig(DataClassJsonMixin):
+    url: str
+    search_term: str
+    screenshot_filename: Path
+    locator: Locator
 
-    def go_to_url(self, url):
-        try:
-            self.driver.get(url)
-            logger.info(f"Successfully navigated to URL: {url}")
-        except Exception as e:
-            logger.error(f"Unexpected error while navigating to {url}: {e}")
-            raise
+    def __post_init__(self):
+        self.screenshot_filename = Path(self.screenshot_filename)
+        if self.screenshot_filename.suffix not in VALID_SCREENSHOT_EXTENSION:
+            raise RuntimeError('Invalid screenshot file extension')
 
-    def save_screenshot(self, screenshot_name):
-        try:
-            base_dir = os.path.dirname(os.path.abspath(__file__))
-            screenshot_path = os.path.join(base_dir, '..', 'screenshots', f'{screenshot_name}')
-            success = self.driver.save_screenshot(screenshot_path)
-            if success:
-                logger.info(f"Screenshot saved to: {screenshot_path}")
-            else:
-                logger.warning(f"Screenshot attempt failed (unknown reason) at: {screenshot_path}")
-        except Exception as e:
-            logger.error(f"Unexpected error during save_screenshot: {e}")
-            raise
 
-    def wait_and_click(self, locator, timeout=DEFAULT_TIMEOUT):
-        logger.info(f"Attempting to click element: {locator}")
-        try:
-            element = WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
-            element.click()
-            return element
-        except (TimeoutException, NoSuchElementException) as e:
-            logger.error(f"Failed to click element {locator}: {e}")
-            raise
+def go_to_url(driver: driver, url: str):
+    try:
+        driver.get(url)
+        logging.info(f'Successfully navigated to URL: {url}')
+    except Exception as e:
+        logging.error(f'Unexpected error while navigating to {url}: {e}')
+        raise
 
-    def wait_for_presence(self, locator, timeout=DEFAULT_TIMEOUT):
-        try:
-            element = WebDriverWait(self.driver, timeout).until(
-                EC.presence_of_element_located(locator)
-            )
-            logger.info(f"Element found: {locator}")
-            return element
-        except Exception as e:
-            logger.error(f"Unexpected error in wait_for_presence: {e}")
-            raise
 
-    def scroll_down(self, times, delay=1, scroll_px=100):
-        try:
-            for i in range(times + 1):
-                self.driver.execute_script(f"window.scrollBy({{top: {scroll_px}, behavior: 'smooth'}});")
-                logger.info(f"Scrolled down {scroll_px}px (iteration {i + 1}/{times + 1})")
-                time.sleep(delay)
-        except Exception as e:
-            logger.error(f"Unexpected error in scroll_down: {e}")
-            raise
+def save_screenshot(driver: driver, screenshot_name: Path):
+    try:
+        if not DEFAULT_SCREENSHOT_DIR.exists():
+            DEFAULT_SCREENSHOT_DIR.mkdir()
+        screenshot_path = DEFAULT_SCREENSHOT_DIR / screenshot_name
+        success = driver.save_screenshot(str(screenshot_path))
+        if success:
+            logging.info(f'Screenshot saved to: {str(screenshot_path)}')
+        else:
+            logging.warning(
+                f'Screenshot attempt failed (unknown reason) at: {str(screenshot_path)}')
+    except Exception as e:
+        logging.error(f'Unexpected error during save_screenshot: {e}')
+        raise
+
+
+def wait_and_click(driver: driver, locator: str, timeout: int = DEFAULT_TIMEOUT):
+    logging.info(f'Attempting to click element: {locator}')
+    try:
+        element = WebDriverWait(driver, timeout).until(
+            EC.element_to_be_clickable((By.XPATH, locator)))
+        element.click()
+        return element
+    except (TimeoutException, NoSuchElementException) as e:
+        logging.error(f'Failed to click element {locator}: {e}')
+        raise
+
+
+def wait_for_presence(driver: driver, locator: str, timeout: int = DEFAULT_TIMEOUT):
+    try:
+        element = WebDriverWait(driver, timeout).until(
+            EC.presence_of_element_located((By.XPATH, locator))
+        )
+        logging.info(f'Element found: {locator}')
+        return element
+    except Exception as e:
+        logging.error(f'Unexpected error in wait_for_presence: {e}')
+        raise
+
+
+def scroll_down(driver: driver, times: int, delay: int = 1, scroll_px: float = 100):
+    try:
+        for i in range(times + 1):
+            driver.execute_script(
+                f"window.scrollBy({{top: {scroll_px}, behavior: 'smooth'}});")
+            logging.info(
+                f'Scrolled down {scroll_px}px (iteration {i + 1}/{times + 1})')
+            time.sleep(delay)
+    except Exception as e:
+        logging.error(f'Unexpected error in scroll_down: {e}')
+        raise
