@@ -21,10 +21,19 @@ Here's a demonstration of the automated test running locally:
     git clone https://github.com/zxc5131210/opennet-homework.git
     ```
 
-2.  **Install dependencies:**
+2.  **Create and activate a virtual environment (recommended):**
+    A virtual environment helps isolate project dependencies, preventing conflicts with system-wide or other project dependencies.
+    ```bash
+    python -m venv venv
+    ```
+    *Activate on macOS/Linux:*
+    ```bash
+    source venv/bin/activate
+    ```
+3.  **Install project dependencies:**
     ```bash
     pip install -r requirements.txt
-    ```
+    
 ## Execute Tests
 
 Run the following command from the project root directory:
