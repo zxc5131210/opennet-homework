@@ -8,4 +8,5 @@ locator:
   channel_tab: "//div[@class='ScTitle-sc-iekec1-3 gesXMd'][text()='頻道']"
   first_search_result_link: "(//a[@data-a-target='search-result-link'])[1]"
   streamer_card: "(//div[@class='Layout-sc-1xcs6mc-0 doaFqY'])[4]"
-  video_player: "//div[@data-a-target='player-overlay-click-handler']"
+  video_player: "//div[@class='ScTransitionBase-sc-hx4quq-0 iJjfEt tw-transition']"
+  skip_popup: "//button[@data-a-target='content-classification-gate-overlay-start-watching-button']"

@@ -7,7 +7,6 @@ from utils import util
 
 
 def test_twitch_stream_screenshot(test_config, driver):
-
     util.go_to_url(driver, test_config.url)
     util.wait_and_click(driver, test_config.locator.search_button)
     util.wait_and_click(
@@ -18,9 +17,11 @@ def test_twitch_stream_screenshot(test_config, driver):
 
     try:
         util.wait_and_click(driver, test_config.locator.streamer_card).click()
-        time.sleep(5)
     except TimeoutException:
         pytest.fail('STREAMER_CARD not found. Please check TwitchLocators.')
+
+    # popup skip handle
+    util.handle_popup(driver, test_config.locator.skip_popup)
 
     try:
         util.wait_for_presence(

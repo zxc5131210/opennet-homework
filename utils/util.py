@@ -24,6 +24,7 @@ class Locator(DataClassJsonMixin):
     first_search_result_link: str
     streamer_card: str
     video_player: str
+    skip_popup: str
 
 
 @dataclass
@@ -99,3 +100,14 @@ def scroll_down(driver: driver, times: int, delay: int = 1, scroll_px: float = 1
     except Exception as e:
         logging.error(f'Unexpected error in scroll_down: {e}')
         raise
+
+
+def handle_popup(driver: driver, locator: str, timeout: int = 3):
+    try:
+        element = WebDriverWait(driver, timeout).until(
+            EC.presence_of_element_located((By.XPATH, locator))
+        )
+        element.click()
+        logging.info(f'popup handle')
+    except Exception:
+        logging.info(f'popup not exist')
