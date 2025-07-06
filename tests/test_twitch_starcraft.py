@@ -23,8 +23,7 @@ def test_twitch_stream_screenshot(test_config, driver):
 
     # popup skip handle
     try:
-        util.is_element_exist(driver, test_config.locator.skip_popup, 3)
-        util.wait_and_click(driver, test_config.locator.skip_popup)
+        util.is_element_exist_and_click(driver, test_config.locator.skip_popup, 3)
     except TimeoutException:
         logging.info("Popup not found or already dismissed.")
 
