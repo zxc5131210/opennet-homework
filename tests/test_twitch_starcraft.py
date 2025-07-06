@@ -1,6 +1,3 @@
-import os
-import time
-
 import pytest
 from selenium.common.exceptions import TimeoutException
 from utils import util
@@ -13,6 +10,7 @@ def test_twitch_stream_screenshot(test_config, driver):
         driver, test_config.locator.search_input).send_keys(test_config.search_term)
     util.wait_and_click(driver, test_config.locator.search_result)
     util.wait_and_click(driver, test_config.locator.channel_tab)
+    util.is_element_exist(driver, test_config.locator.streamer_card)
     util.scroll_down(driver, 2)
 
     try:
@@ -21,7 +19,8 @@ def test_twitch_stream_screenshot(test_config, driver):
         pytest.fail('STREAMER_CARD not found. Please check TwitchLocators.')
 
     # popup skip handle
-    util.handle_popup(driver, test_config.locator.skip_popup)
+    if util.is_element_exist(driver, test_config.locator.skip_popup):
+        util.wait_and_click(driver, test_config.locator.skip_popup).click()
 
     try:
         util.wait_for_presence(

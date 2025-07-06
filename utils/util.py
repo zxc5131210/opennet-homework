@@ -91,23 +91,23 @@ def wait_for_presence(driver: driver, locator: str, timeout: int = DEFAULT_TIMEO
 
 def scroll_down(driver: driver, times: int, delay: int = 1, scroll_px: float = 100):
     try:
-        for i in range(times + 1):
+        for i in range(times):
             driver.execute_script(
                 f"window.scrollBy({{top: {scroll_px}, behavior: 'smooth'}});")
             logging.info(
-                f'Scrolled down {scroll_px}px (iteration {i + 1}/{times + 1})')
+                f'Scrolled down {scroll_px}px (iteration {i+1}/{times})')
             time.sleep(delay)
     except Exception as e:
         logging.error(f'Unexpected error in scroll_down: {e}')
         raise
 
 
-def handle_popup(driver: driver, locator: str, timeout: int = 3):
+def is_element_exist(driver: driver, locator: str, timeout: int = 3):
     try:
         element = WebDriverWait(driver, timeout).until(
             EC.presence_of_element_located((By.XPATH, locator))
         )
-        element.click()
-        logging.info(f'popup handle')
+        element.is_displayed()
+        logging.info(f'element exist: {element.is_displayed()}')
     except TimeoutException:
-        logging.info(f'popup not exist')
+        logging.info(f'element not exist')
