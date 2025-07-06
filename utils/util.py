@@ -65,15 +65,21 @@ def save_screenshot(driver: driver, screenshot_name: Path):
         raise
 
 
-def wait_and_click(driver: driver, locator: str, timeout: int = DEFAULT_TIMEOUT):
+def wait_and_click(driver, locator: str, timeout: int = DEFAULT_TIMEOUT, log_level_on_failure: str = "error"):
     logging.info(f'Attempting to click element: {locator}')
     try:
         element = WebDriverWait(driver, timeout).until(
             EC.element_to_be_clickable((By.XPATH, locator)))
         element.click()
         return element
-    except (TimeoutException, NoSuchElementException) as e:
-        logging.error(f'Failed to click element {locator}: {e}')
+    except (TimeoutException, NoSuchElementException):
+        message = f'Failed to click element {locator}'
+        if log_level_on_failure == "warning":
+            logging.warning(message)
+        elif log_level_on_failure == "info":
+            logging.info(message)
+        else:
+            logging.error(message)
         raise
 
 
@@ -95,18 +101,21 @@ def scroll_down(driver: driver, times: int, delay: int = 1, scroll_px: float = 1
             driver.execute_script(
                 f"window.scrollBy({{top: {scroll_px}, behavior: 'smooth'}});")
             logging.info(
-                f'Scrolled down {scroll_px}px (iteration {i+1}/{times})')
+                f'Scrolled down {scroll_px}px (iteration {i + 1}/{times})')
             time.sleep(delay)
     except Exception as e:
         logging.error(f'Unexpected error in scroll_down: {e}')
         raise
 
 
-def is_element_exist(driver: driver, locator: str, timeout: int = 3):
+def is_element_exist(driver, locator: str, timeout: int = 3) -> bool:
     try:
-        WebDriverWait(driver, timeout).until(
+        element = WebDriverWait(driver, timeout).until(
             EC.presence_of_element_located((By.XPATH, locator))
-        ).is_displayed()
-        logging.info(f'element exist')
+        )
+        is_displayed = element.is_displayed()
+        logging.info(f'element exist: displayed={is_displayed}')
+        return is_displayed
     except TimeoutException:
-        logging.info(f'element not exist')
+        logging.info('element not exist')
+        return False

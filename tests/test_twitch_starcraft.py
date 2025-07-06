@@ -1,3 +1,6 @@
+import logging
+from asyncio import timeout
+
 import pytest
 from selenium.common.exceptions import TimeoutException
 from utils import util
@@ -19,8 +22,10 @@ def test_twitch_stream_screenshot(test_config, driver):
         pytest.fail('STREAMER_CARD not found. Please check TwitchLocators.')
 
     # popup skip handle
-    if util.is_element_exist(driver, test_config.locator.skip_popup):
-        util.wait_and_click(driver, test_config.locator.skip_popup)
+    try:
+        util.wait_and_click(driver, test_config.locator.skip_popup, 3,"info")
+    except TimeoutException:
+        logging.info("Popup not found or already dismissed.")
 
     try:
         util.wait_for_presence(
