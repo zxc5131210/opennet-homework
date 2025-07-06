@@ -13,7 +13,7 @@ def test_twitch_stream_screenshot(test_config, driver):
         driver, test_config.locator.search_input).send_keys(test_config.search_term)
     util.wait_and_click(driver, test_config.locator.search_result)
     util.wait_and_click(driver, test_config.locator.channel_tab)
-    util.is_element_exist(driver, test_config.locator.streamer_card)
+    util.wait_for_presence(driver, test_config.locator.streamer_card)
     util.scroll_down(driver, 2)
 
     try:

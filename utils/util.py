@@ -80,7 +80,7 @@ def wait_and_click(driver, locator: str, timeout: int = DEFAULT_TIMEOUT, log_lev
             logging.info(message)
         else:
             logging.error(message)
-        raise
+            raise
 
 
 def wait_for_presence(driver: driver, locator: str, timeout: int = DEFAULT_TIMEOUT):
@@ -106,16 +106,3 @@ def scroll_down(driver: driver, times: int, delay: int = 1, scroll_px: float = 1
     except Exception as e:
         logging.error(f'Unexpected error in scroll_down: {e}')
         raise
-
-
-def is_element_exist(driver, locator: str, timeout: int = 3) -> bool:
-    try:
-        element = WebDriverWait(driver, timeout).until(
-            EC.presence_of_element_located((By.XPATH, locator))
-        )
-        is_displayed = element.is_displayed()
-        logging.info(f'element exist: displayed={is_displayed}')
-        return is_displayed
-    except TimeoutException:
-        logging.info('element not exist')
-        return False
