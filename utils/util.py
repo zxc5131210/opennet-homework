@@ -109,5 +109,5 @@ def handle_popup(driver: driver, locator: str, timeout: int = 3):
         )
         element.click()
         logging.info(f'popup handle')
-    except Exception:
+    except TimeoutException:
         logging.info(f'popup not exist')
