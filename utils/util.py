@@ -74,13 +74,8 @@ def wait_and_click(driver, locator: str, timeout: int = DEFAULT_TIMEOUT, log_lev
         return element
     except (TimeoutException, NoSuchElementException):
         message = f'Failed to click element {locator}'
-        if log_level_on_failure == "warning":
-            logging.warning(message)
-        elif log_level_on_failure == "info":
-            logging.info(message)
-        else:
-            logging.error(message)
-            raise
+        logging.error(message)
+        raise
 
 
 def wait_for_presence(driver: driver, locator: str, timeout: int = DEFAULT_TIMEOUT):
