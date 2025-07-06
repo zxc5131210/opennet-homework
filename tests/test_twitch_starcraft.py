@@ -14,13 +14,13 @@ def test_twitch_stream_screenshot(test_config, driver):
     util.scroll_down(driver, 2)
 
     try:
-        util.wait_and_click(driver, test_config.locator.streamer_card).click()
+        util.wait_and_click(driver, test_config.locator.streamer_card)
     except TimeoutException:
         pytest.fail('STREAMER_CARD not found. Please check TwitchLocators.')
 
     # popup skip handle
     if util.is_element_exist(driver, test_config.locator.skip_popup):
-        util.wait_and_click(driver, test_config.locator.skip_popup).click()
+        util.wait_and_click(driver, test_config.locator.skip_popup)
 
     try:
         util.wait_for_presence(
