@@ -104,10 +104,9 @@ def scroll_down(driver: driver, times: int, delay: int = 1, scroll_px: float = 1
 
 def is_element_exist(driver: driver, locator: str, timeout: int = 3):
     try:
-        element = WebDriverWait(driver, timeout).until(
+        WebDriverWait(driver, timeout).until(
             EC.presence_of_element_located((By.XPATH, locator))
-        )
-        element.is_displayed()
-        logging.info(f'element exist: {element.is_displayed()}')
+        ).is_displayed()
+        logging.info(f'element exist')
     except TimeoutException:
         logging.info(f'element not exist')
