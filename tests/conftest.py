@@ -5,7 +5,6 @@ from pathlib import Path
 from utils import util
 import yaml
 
-DEFAULT_SCREENSHOT_PATH = Path('screenshots/final_streamer_page.png')
 DEFAULT_CONFIG_PATH = Path('config/twitch_startcraft_config.yaml')
 
 
@@ -18,10 +17,7 @@ def pytest_addoption(parser):
 @pytest.fixture
 def config_path(request):
     config_path = request.config.getoption('--config')
-    if not config_path:
-        yield DEFAULT_CONFIG_PATH
-    else:
-        yield Path(config_path)
+    yield Path(config_path) if config_path else DEFAULT_CONFIG_PATH
 
 
 @pytest.fixture
