@@ -65,7 +65,7 @@ def save_screenshot(driver: driver, screenshot_name: Path):
         raise
 
 
-def wait_and_click(driver, locator: str, timeout: int = DEFAULT_TIMEOUT, log_level_on_failure: str = "error"):
+def wait_and_click(driver, locator: str, timeout: int = DEFAULT_TIMEOUT):
     logging.info(f'Attempting to click element: {locator}')
     try:
         element = WebDriverWait(driver, timeout).until(
