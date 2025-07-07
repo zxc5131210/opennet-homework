@@ -1,6 +1,21 @@
-# Twitch Automation Test
+## Twitch Automation Test
 
-Simulate user search and live stream browsing operations on the Twitch website using Python and Selenium.
+Project overview This project aims to simulate the core operation process of users on the Twitch website through automated testing, including searching for specific game live broadcasts, browsing channel lists, and watching live content. Through Python and Selenium WebDriver technology, we can efficiently verify the functionality and stability of the Twitch website.
+
+## Main functions
+**Automatic navigation**: Navigate to the homepage of the Twitch website.
+
+**Keyword search**: Enter and search for specified live content (for example: StarCraft II).
+
+**Channel browsing**: Navigate to the search results page and browse related channels.
+
+**Live viewing**: Click to enter the live broadcast room and verify whether the video player is loaded normally.
+
+**Environment simulation**: Supports simulating the mobile browser environment for testing.
+
+**Screenshots and logs**: Automatically take screenshots and record detailed execution logs during the test process to facilitate tracing and troubleshooting.
+
+**Flexible Configuration**: Manage URLs, search keywords, screenshot names, and various page element locators through external YAML configuration files to improve test flexibility and maintainability.
 
 ## Local GIF Animation Demo
 
