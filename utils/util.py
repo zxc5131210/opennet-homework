@@ -30,7 +30,6 @@ class TwitchStarcraftPageLocators(DataClassJsonMixin):
 
 
 @dataclass
-@dataclass
 class TestConfig(DataClassJsonMixin):
     url: str
     search_term: str
