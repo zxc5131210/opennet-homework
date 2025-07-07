@@ -7,8 +7,7 @@ Simulate user search and live stream browsing operations on the Twitch website u
 Here's a demonstration of the automated test running locally:
 
 ![running.gif](running.gif)
-![final_streamer_page.png](screenshots/final_streamer_page.png)
-
+![report.png](report.png)
 ## Prerequisites
 
 * **Python:** Ensure Python is installed on your system.
@@ -38,5 +37,11 @@ Here's a demonstration of the automated test running locally:
 
 Run the following command from the project root directory:
 
+Before running the script, give it execute permission:
 ```bash
-pytest
+chmod +x run_tests.sh
+````
+### Run All Tests and Generate Report
+```bash
+./run_tests.sh
+```
