@@ -26,15 +26,15 @@ def test_config(config_path):
     with open(config_path, 'r') as file:
         yaml_data = yaml.safe_load(file)
 
-    locators_data = {}
-    for locator_file in LOCATORS_DIR.glob('*.yaml'):
-        with open(locator_file, 'r') as f:
-            locators_data.update(yaml.safe_load(f))
-
     config = util.TestConfig.from_dict(yaml_data)
-
-    config.home_page_locators = util.TwitchHomePageLocators.from_dict(locators_data)
-    config.starcraft_page_locators = util.TwitchStarcraftPageLocators.from_dict(locators_data)
+    for file_name_stem, locator_dataclass in util.LOCATOR_MAPPING.items():
+        locator_file_path = LOCATORS_DIR / f'{file_name_stem}.yaml'
+        if locator_file_path.exists():
+            with open(locator_file_path, 'r') as file:
+                locators_data = yaml.safe_load(file)
+            setattr(config, file_name_stem, locator_dataclass.from_dict(locators_data))
+        else:
+            print(f"Warning: Locator file not found: {locator_file_path}")
 
     yield config
 

@@ -41,6 +41,10 @@ class TestConfig(DataClassJsonMixin):
         if self.screenshot_filename.suffix not in VALID_SCREENSHOT_EXTENSION:
             raise RuntimeError('Invalid screenshot file extension')
 
+LOCATOR_MAPPING = {
+    "twitch_home_page_locators": TwitchHomePageLocators,
+    "twitch_starcraft_page_locators": TwitchStarcraftPageLocators,
+}
 
 def go_to_url(driver: driver, url: str):
     try:
