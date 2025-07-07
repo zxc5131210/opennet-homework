@@ -5,6 +5,8 @@ from pathlib import Path
 from utils import util
 import yaml
 
+from utils.config_models import TestConfig, LOCATOR_MAPPING
+
 DEFAULT_CONFIG_PATH = Path('config/twitch_startcraft_config.yaml')
 LOCATORS_DIR = Path('locators')
 
@@ -26,8 +28,8 @@ def test_config(config_path):
     with open(config_path, 'r') as file:
         yaml_data = yaml.safe_load(file)
 
-    config = util.TestConfig.from_dict(yaml_data)
-    for file_name_stem, locator_dataclass in util.LOCATOR_MAPPING.items():
+    config = TestConfig.from_dict(yaml_data)
+    for file_name_stem, locator_dataclass in LOCATOR_MAPPING.items():
         locator_file_path = LOCATORS_DIR / f'{file_name_stem}.yaml'
         if locator_file_path.exists():
             with open(locator_file_path, 'r') as file:

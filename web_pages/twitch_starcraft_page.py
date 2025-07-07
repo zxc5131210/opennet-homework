@@ -1,5 +1,5 @@
 from web_pages.base_page import BasePage
-from utils.util import TwitchStarcraftPageLocators
+from utils.config_models import TwitchStarcraftPageLocators
 
 
 class TwitchStarcraftPage(BasePage):

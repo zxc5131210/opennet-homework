@@ -1,5 +1,5 @@
 from web_pages.base_page import BasePage
-from utils.util import TwitchHomePageLocators  # 引入 Locator 類來獲取定位器值
+from utils.config_models import TwitchHomePageLocators  # 引入 Locator 類來獲取定位器值
 
 
 class TwitchHomePage(BasePage):
