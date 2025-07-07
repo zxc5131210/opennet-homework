@@ -1,0 +1,3 @@
+search_button: "//div[@class='Layout-sc-1xcs6mc-0 iwaIid']//div[text()='瀏覽']"
+search_input: "//input[@type='search']"
+search_result: "//p[@title='StarCraft II']"

@@ -1,10 +1,10 @@
 from web_pages.base_page import BasePage
-from utils.util import Locator  # 引入 Locator 類來獲取定位器值
+from utils.util import TwitchHomePageLocators  # 引入 Locator 類來獲取定位器值
 
 
 class TwitchHomePage(BasePage):
 
-    def __init__(self, driver, locators: Locator):
+    def __init__(self, driver, locators: TwitchHomePageLocators):
         super().__init__(driver)
         self.locators = locators
 

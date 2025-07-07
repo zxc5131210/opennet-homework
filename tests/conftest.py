@@ -6,6 +6,7 @@ from utils import util
 import yaml
 
 DEFAULT_CONFIG_PATH = Path('config/twitch_startcraft_config.yaml')
+LOCATORS_DIR = Path('locators')
 
 
 def pytest_addoption(parser):
@@ -24,7 +25,19 @@ def config_path(request):
 def test_config(config_path):
     with open(config_path, 'r') as file:
         yaml_data = yaml.safe_load(file)
-    yield util.TestConfig.from_dict(yaml_data)
+
+    # 加載所有定位器文件並合併到一個字典中
+    locators_data = {}
+    for locator_file in LOCATORS_DIR.glob('*.yaml'):
+        with open(locator_file, 'r') as f:
+            locators_data.update(yaml.safe_load(f))
+
+    config = util.TestConfig.from_dict(yaml_data)
+
+    config.home_page_locators = util.TwitchHomePageLocators.from_dict(locators_data)
+    config.starcraft_page_locators = util.TwitchStarcraftPageLocators.from_dict(locators_data)
+
+    yield config
 
 
 @pytest.fixture(scope='function')

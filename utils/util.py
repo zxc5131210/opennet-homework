@@ -16,23 +16,25 @@ DEFAULT_SCREENSHOT_DIR = Path('screenshots')
 
 
 @dataclass
-class Locator(DataClassJsonMixin):
+class TwitchHomePageLocators(DataClassJsonMixin):
     search_button: str
     search_input: str
     search_result: str
+
+@dataclass
+class TwitchStarcraftPageLocators(DataClassJsonMixin):
     channel_tab: str
-    first_search_result_link: str
     streamer_card: str
     video_player: str
     skip_popup: str
 
 
 @dataclass
+@dataclass
 class TestConfig(DataClassJsonMixin):
     url: str
     search_term: str
     screenshot_filename: Path
-    locator: Locator
 
     def __post_init__(self):
         self.screenshot_filename = Path(self.screenshot_filename)

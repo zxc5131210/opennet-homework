@@ -1,9 +1,9 @@
 from web_pages.base_page import BasePage
-from utils.util import Locator
+from utils.util import TwitchStarcraftPageLocators
 
 
 class TwitchStarcraftPage(BasePage):
-    def __init__(self, driver, locators: Locator):
+    def __init__(self, driver, locators: TwitchStarcraftPageLocators):
         super().__init__(driver)
         self.locators = locators
 

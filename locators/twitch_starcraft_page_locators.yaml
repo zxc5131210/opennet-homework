@@ -1,0 +1,4 @@
+channel_tab: "//div[@class='ScTitle-sc-iekec1-3 gesXMd'][text()='頻道']"
+streamer_card: "(//div[@class='Layout-sc-1xcs6mc-0 doaFqY'])[5]"
+video_player: "//div[@class='ScTransitionBase-sc-hx4quq-0 iJjfEt tw-transition']"
+skip_popup: "//button[@data-a-target='content-classification-gate-overlay-start-watching-button']"

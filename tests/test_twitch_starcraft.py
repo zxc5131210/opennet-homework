@@ -12,8 +12,8 @@ from utils import util
 @allure.severity(allure.severity_level.CRITICAL)
 @allure.link("https://www.twitch.tv/", name="Twitch URL")
 def test_twitch_stream_screenshot(test_config, driver):
-    home_page = TwitchHomePage(driver, test_config.locator)
-    starcraft_page = TwitchStarcraftPage(driver, test_config.locator)
+    home_page = TwitchHomePage(driver, test_config.home_page_locators)
+    starcraft_page = TwitchStarcraftPage(driver, test_config.starcraft_page_locators)
 
     with allure.step("Navigate to Twitch homepage"):
         home_page.navigate_to_home_page(test_config.url)
