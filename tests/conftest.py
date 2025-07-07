@@ -26,7 +26,6 @@ def test_config(config_path):
     with open(config_path, 'r') as file:
         yaml_data = yaml.safe_load(file)
 
-    # 加載所有定位器文件並合併到一個字典中
     locators_data = {}
     for locator_file in LOCATORS_DIR.glob('*.yaml'):
         with open(locator_file, 'r') as f:
