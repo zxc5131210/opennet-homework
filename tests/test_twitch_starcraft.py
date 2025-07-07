@@ -9,8 +9,6 @@ from utils import util
 
 @allure.feature("Twitch Stream Test")
 @allure.story("Search StarCraft II and Watch Stream")
-@allure.severity(allure.severity_level.CRITICAL)
-@allure.link("https://www.twitch.tv/", name="Twitch URL")
 def test_twitch_stream_screenshot(test_config, driver):
     home_page = TwitchHomePage(driver, test_config.twitch_home_page_locators)
     starcraft_page = TwitchStarcraftPage(driver, test_config.twitch_starcraft_page_locators)
