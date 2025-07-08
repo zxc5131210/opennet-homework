@@ -19,8 +19,7 @@ def test_twitch_stream_screenshot(test_config, driver):
         home_page.enter_search_term(test_config.search_term)
 
     with allure.step("Click 'StarCraft II' search result"):
-        # home_page.click_search_result_starcraft_ii()
-        pass
+        home_page.click_search_result_starcraft_ii()
 
     with allure.step("Click 'Channels' tab and wait for streamer cards"):
         starcraft_page.click_channel_tab()
