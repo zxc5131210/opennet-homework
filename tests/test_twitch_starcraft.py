@@ -41,8 +41,9 @@ def test_twitch_stream_screenshot(test_config, driver):
         starcraft_page.wait_for_video_player(timeout=15)
 
     with allure.step("Save final page screenshot"):
-        final_screenshot_path = str(util.DEFAULT_SCREENSHOT_DIR / test_config.screenshot_filename)
+        final_screenshot_path = util.DEFAULT_SCREENSHOT_DIR / test_config.screenshot_filename
         starcraft_page.save_screenshot(test_config.screenshot_filename)
+        assert final_screenshot_path.exists()
         allure.attach.file(final_screenshot_path,
                            name="Final Page Screenshot",
                            attachment_type=allure.attachment_type.PNG)
