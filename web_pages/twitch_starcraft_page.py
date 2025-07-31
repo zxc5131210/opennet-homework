@@ -17,7 +17,7 @@ class TwitchStarcraftPage(BasePage):
         self.click_element(self.locators.streamer_card)
 
     def skip_content_classification_popup(self):
-        return self.is_element_present_and_click(self.locators.skip_popup)
+        return self.try_click_element(self.locators.skip_popup)
 
     def wait_for_video_player(self, timeout: int = 15):
         self.find_element(self.locators.video_player, timeout=timeout)

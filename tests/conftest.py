@@ -29,6 +29,7 @@ def test_config(config_path):
         yaml_data = yaml.safe_load(file)
 
     config = TestConfig.from_dict(yaml_data)
+    util.set_test_config(config)
     for file_name_stem, locator_dataclass in LOCATOR_MAPPING.items():
         locator_file_path = LOCATORS_DIR / f'{file_name_stem}.yaml'
         if locator_file_path.exists():

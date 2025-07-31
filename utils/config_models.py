@@ -22,6 +22,9 @@ class TestConfig(DataClassJsonMixin):
     url: str
     search_term: str
     screenshot_filename: Path
+    default_timeout: int
+    default_screenshot_dir: str
+    default_fail_screenshot_dir: str
 
     def __post_init__(self):
         self.screenshot_filename = Path(self.screenshot_filename)
